@@ -11,6 +11,7 @@ package org.nczeroshift.serialcli;
 import jssc.*;
 import org.nczeroshift.commons.JFrameUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -273,7 +274,10 @@ public class Main {
 
         panel.add(bottomSection);
 
-        createWindow("Serial CLI", 800, 600, panel).setVisible(true);
+        JFrame frame =createWindow("Serial CLI", 800, 600, panel);
+        Image img = ImageIO.read(Main.class.getResourceAsStream("/org/nczeroshift/icon.png"));
+        frame.setIconImage(img);
+        frame.setVisible(true);
     }
 
     private void addText(final String txt) {
