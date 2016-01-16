@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="App JAR">
+    <output-path>$PROJECT_DIR$/out/artifacts/App_JAR</output-path>
+    <root id="archive" name="serialcli.jar">
+      <element id="module-output" name="serialcli" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jssc.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
