@@ -65,6 +65,7 @@ public class Main {
     private ArrayList<String> messages = new ArrayList<String>();
     private int currentBackIndex = 0;
     private SerialPort serialPort = null;
+    private String clsBuffer = "";
 
     public static JPanel createFixedPadding(int size) {
         JPanel ret = new JPanel();
@@ -170,7 +171,21 @@ public class Main {
         });
         topSection.add(serialPortDisconnectButton);
 
-        topSection.add(createHorizontalPadding());
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.setSize(120, 24);
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cliCommandList.setText("");
+            }
+        });
+
+        JPanel p = createFixedPadding(10);
+        p.setMaximumSize(new Dimension(9999, 25));
+        topSection.add(p);
+        topSection.add(clearButton);
+        topSection.add(createFixedPadding(10));
 
         JPanel middleSection = new JPanel();
         middleSection.setBackground(null);
@@ -281,10 +296,30 @@ public class Main {
     }
 
     private void addText(final String txt) {
+        String tmpTxt = "";
+        boolean tmpClear = false;
+        for(int i = 0;i < txt.length();i++){
+            clsBuffer += txt.charAt(i);
+            tmpTxt += txt.charAt(i);
+
+            if(clsBuffer.length()>5)
+                clsBuffer = clsBuffer.substring(1,clsBuffer.length());
+
+            if(clsBuffer.equalsIgnoreCase("cls\n\r")){
+                tmpTxt = "";
+                tmpClear = true;
+            }
+        }
+
+        final String fTxt = tmpTxt;
+        final boolean fClear = tmpClear;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                cliCommandList.setText(cliCommandList.getText() + txt);
+                if(fClear)
+                    cliCommandList.setText(fTxt);
+                else
+                    cliCommandList.setText(cliCommandList.getText() + fTxt);
             }
         });
     }
